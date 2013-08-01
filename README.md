@@ -15,6 +15,9 @@ Follow the docs at https://docs.djangoproject.com/en/dev/intro/tutorial01/
 Go to http://localhost:8000 in your browser
 
 
-Add database (sqlite easy default):
+Add sqlite3 database for simplicity in settings.py:
 
-snip from settings.py DATABASES section
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'django_sdj.sqlite3',
+
+%> python manage.py syncdb      # run through the prompts
