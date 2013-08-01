@@ -21,3 +21,7 @@ Add sqlite3 database for simplicity in settings.py:
         'NAME': 'django_sdj.sqlite3',
 
 %> python manage.py syncdb      # run through the prompts
+Go to http://localhost:8000 in your browser
+
+
+%> python manage.py startapp hello
