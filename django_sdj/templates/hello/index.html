@@ -1,1 +1,10 @@
-Hello, {{hello_who}}!
+<h1>Hello, {{hello_who}}!</h1>
+
+<h3>Send me a message</h3>
+
+<form action="/" method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+
+<input type="submit" value="Send" />
+</form>
