@@ -33,7 +33,7 @@ See: https://github.com/mdagosta/hello-sdj/commit/c8970ded6fc015f57278ad128f5b91
 %> python manage.py sql hello  # sample output. if it looks ok...  
 %> python manage.py syncdb
 
-Django's docs for part 2 are great and I don't have anything to add... for what it's worth here's what I needed to enable it:
+Django's docs for part 2 on the Admin Interface are great so I don't have much to add... for what it's worth here's what I needed to enable Admin:
 
 https://github.com/mdagosta/hello-sdj/commit/7e4744e7c92be1e3430a147b4965ae0b7172dd03
 
