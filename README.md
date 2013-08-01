@@ -9,6 +9,8 @@ Get Started with Django
 
 Follow the docs at https://docs.djangoproject.com/en/dev/intro/tutorial01/
 
+The Django docs walk you through something of a Minimum Viable Server, complete with error handlers and forward-thinking practices. I'll walk you through setting up a Minimum Functioning Program that just barely gets off the ground and has a feature.
+
 %> django-admin.py startproject django_sdj  
 %> cd django_sdj  
 %> python manage.py runserver  
