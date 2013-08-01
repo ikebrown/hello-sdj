@@ -1,0 +1,7 @@
+<h1>Messages</h1>
+
+{% for message in messages %}
+{{message}}
+  From: {{message.email}} <br/>
+  Message: {{message.message}} <br/> <hr/>
+{% endfor %}

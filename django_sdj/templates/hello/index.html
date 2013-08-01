@@ -2,9 +2,14 @@
 
 <h3>Send me a message</h3>
 
+<p>If you get this far, try to send me a message using the form!</p>
+
 <form action="/" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
 
 <input type="submit" value="Send" />
 </form>
+
+<p>PS: If you get a connection error, try installing a mail server like postfix or exim, or modify the send_mail() function call to connect to your service provider</p>
+
