@@ -44,3 +44,11 @@ Creating a view:
 Start by editing urls and views: https://github.com/mdagosta/hello-sdj/commit/a1882138363ff684c11b427a37a067a75166cff1
 
 
+Create a feature:
+=================
+
+Commits are worth a thousand words each:
+
+https://github.com/mdagosta/hello-sdj/commit/866c88b3d51724f5e1a8177ce56d66565dc3e8bb
+
+https://github.com/mdagosta/hello-sdj/commit/b97230fbc08ea85c8c8730609f32c3befc097314
