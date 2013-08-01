@@ -14,4 +14,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+    # For simplicity install hello.urls as the root - it's our only app for now
+    url(r'', include('hello.urls')),
 )
