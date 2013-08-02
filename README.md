@@ -62,7 +62,7 @@ https://github.com/mdagosta/hello-sdj/commit/b97230fbc08ea85c8c8730609f32c3befc0
 Get Started with Tornado
 ========================
 
-We're going to modify the tornado webchat to store messages in the database, which will touch on the ioloop and async requests.
+We're going to modify the tornado webchat to store messages in the database, which will touch on the ioloop and async requests. This uses Google Oauth so if you aren't already Google Borg you'll need to sign up to Gmail for this demo.
 
 Start by installing tornado using pip or clone it from github:
 
@@ -71,9 +71,23 @@ OR
 %> git clone https://github.com/facebook/tornado.git
 
 Then copy the contents of the tornado/demos/chat directory to yours:
+
 https://github.com/facebook/tornado/tree/master/demos/chat
 
 
+Then run the chatdemo:
+
+%> cd chat
+%> ./chatdemo.py
+
+Use two separate browsers or profiles and visit http://localhost:8888, and sign into Google. Out of the box you should be able to type messages that appear in the other browser.
 
 
+Try the same thing using websockets. Copy the contents of the tornado/demos/websocket directory to yours:
 
+https://github.com/facebook/tornado/tree/master/demos/websocket
+
+%> cd websocket
+%> ./chatdemo.py
+
+Do the same in both browsers. If you got it to work, the first step is to do some studying - chatdemo.py is the code sample.
