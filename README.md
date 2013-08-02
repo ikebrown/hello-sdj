@@ -39,13 +39,13 @@ https://github.com/mdagosta/hello-sdj/commit/7e4744e7c92be1e3430a147b4965ae0b717
 
 
 Creating a view:
-================
+----------------
 
 Start by editing urls and views: https://github.com/mdagosta/hello-sdj/commit/a1882138363ff684c11b427a37a067a75166cff1
 
 
 Create a feature:
-=================
+-----------------
 
 Commits are worth a thousand words each:
 
@@ -54,3 +54,26 @@ https://github.com/mdagosta/hello-sdj/commit/3e5b0c5a4fb4beb3e2e968ee1a0e9ecb35b
 https://github.com/mdagosta/hello-sdj/commit/866c88b3d51724f5e1a8177ce56d66565dc3e8bb
 
 https://github.com/mdagosta/hello-sdj/commit/b97230fbc08ea85c8c8730609f32c3befc097314
+
+
+
+
+
+Get Started with Tornado
+========================
+
+We're going to modify the tornado webchat to store messages in the database, which will touch on the ioloop and async requests.
+
+Start by installing tornado using pip or clone it from github:
+
+%> pip install tornado torndb  
+OR  
+%> git clone https://github.com/facebook/tornado.git
+
+Then copy the contents of the tornado/demos/chat directory to yours:
+https://github.com/facebook/tornado/tree/master/demos/chat
+
+
+
+
+
