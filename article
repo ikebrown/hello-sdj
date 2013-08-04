@@ -1,0 +1,138 @@
+Django and Tornado: Python Web Frameworks
+
+Long ago it was enough to put together some 'server pages' and attach them to a database, and you had a website. These days, the web is complex, dynamic and it takes a lot of infrastructure to get a website living and breathing on the internet. Fortunately nobody has to write this from scratch anymore, since there are many frameworks in many languages to provide the foundation needed to bring up a website.
+
+The purpose of a web framework is to provide some general features that are needed for all applications. The <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a> pattern is the de-facto standard for developing web applications, so frameworks usually provide some form of database support (model), URL handling (controller), and HTML templating (view). In this article, I will cover two web frameworks for the Python programming language: <a href="https://www.djangoproject.com/">Django</a> and <a href="http://www.tornadoweb.org/en/stable/">Tornado</a>. While both provide a model-view-controller architecture, they are otherwise at opposite ends of the spectrum from each other.
+
+Django is more mature, has a lot more features and takes care of many details for you, so that you don't have to understand all of the underpinnings in order to make a fully-featured website work. It's stable, easy to use, has a strong community and lots of support. But for all these upsides, it can be hard to customize and troubleshoot in some situations due to its all-encompassing nature. Tornado is lighter weight, has fewer features, yet runs a lot faster, provides an async ioloop for polling/websocket requests and a variety of oauth and social media features. Because it's small and fast, it is customizable to the tiniest detail with a lot more work.
+
+
+Django Features
+
+Django is a one-size fits-all system. The most fundamental piece of the web is an HTTP request. Django controllers allow regular expression matching on urls, to call the right functions and field incoming requests. Much like any web framework, you get sensible default requests and responses, with the ability to override. You can determine GET or POST along with other web context, so you can separate your code cleanly. 
+
+If you're like most people or companies, you will want to collect data from your users and store it in a database. This is one place where Django can really help out with its robust defaults. It has a form generator that will allow you to define the form in terms of your database fields, then generate the html for you, and validate the users' data on a POST submission. The sophisticated data model reads youe existing database schema, or creates one for you, and generates code to define the schema as software objects. You can then read and set attributes, query based on filters and otherwise think of your sql data in terms of objects in a class hierarchy. The Achilles heel of the system, however, is that it's hard to stylize if you have a specific set of graphic design goals.
+
+The template system provides the View part of MVC. You can assign variables to an html template which lives outside of the python code, then the templates values will be replaced. This is fairly standard practice these days, and Django does a great job of it. You can loop over iterable objects such as lists and dictionaries, and call functions. The template inheritance is a simple yet powerful way of defining standard headers and footers, as well as other features, so they exist on every page. The templating is not the fastest on the web, however, so you should plan for additional processing time. 
+
+Since it is such a mature system, Django has all kinds of other features as well: user authentication, localization, unicode handling, and the list goes on. If you want a framework that will cover everything you can possibly need, and you just don't have the time or skill to do a lot of work to get it done, then Django is a great system for you. As they describe it, Django is the web framework for perfectionists with deadlines.
+
+
+Tornado Features
+
+Tornado is perhaps the leanest and meanest of the fully featured Python frameworks. It's small and fast, while handling the basic expectations of an MVC framework. Smaller also means simpler, so you get easy access points for extending the framework itself and directly managing the basic operations of your website, such as HTTP handing and request parameter parsing. It has url routes similar to Django, but uses separate classes to field each request. This makes it possible to create a class hierarchy for your requests, so you can glue together a series of pages into a single parent "flow" class. With a delicate touch, you can take this approach very far.
+
+The database connectivity isn't built-in by default anymore, but does exist in a separate package by the name torndb. With it you can readily connect to MySQL and issue your queries. Nothing major, it just works. The objects returned act like dictionaries and many people think it doesn't get any easier than that! You will want to create your own system for managing connections and retrying failed queries, so this is one place you do extra work with Tornado, and it works exactly how you want it to work.
+
+The template system syntax is a lot like Django's and almost interchangeable: you get template inheritance, variable binding, looping and localization support just as with Django. Yet it executes quite a lot faster with less code under the hood. You can also short-circuit template compilation for speed by carefully instrumenting which files you'll conditionally include. This is another example of where Tornado gives you great access to the internals of the system to make it do exactly what you want. The localization and unicode support is pretty thorough - you can create csv key/value pair files, and look up the values based on the browser language headers. As long as you design your system in an open manner, you can serve your whole website in multiple languages and fast execution.
+
+The real differentiating glory of Tornado is the IOLoop, an asynchronous software library that integrates directly with kernel EPoll, KQueue and similar facilities. Also knows as an Event Loop, this style of programming allows your program to detatch its flow control, so the system can respond to another web request while you wait for the kernal to dispatch your event. It is similar to the Twisted Reactor and node.js for being based on the Event Loop instead of forking a new process for each request. You can let a users' request "hang" while you perform something elsewhere, such as performing Oauth, post to social media, make an API call or scrape another web page. To demonstrate the Asynchronous features, Tornado comes out of the box with a web chat system that runs on a single process, and will be the basis the code samples following.
+
+
+Learn to Code by Coding
+
+Since you're examining web frameworks, I'm assuming you can install python plus packages, and generally edit source code and run it. With that said, the best way to learn to program is by practicing and following examples. So enough words, let's get going with some code! I put together some samples to illustrate the features of each system at https://github.com/mdagosta/hello-sdj. 
+
+
+Django Example 
+
+Django has an excellent tutorial that will help you understand the depth and breadth of its features, and can be found at https://docs.djangoproject.com/en/dev/intro/tutorial01/. This will walk you through what it takes to bring up a Minimum Viable Server... for brevity, I'm going to cut through a lot of that and create a Minimum Functioning Program. Let's create a set of web pages that allow someone to send you an email message through the web, and store the message in the database without all the extras that you would want to operate a web-based business.
+
+Once you have Django installed, from the shell you run its admin system:
+
+%> django-admin.py startproject django_sdj
+%> cd django_sdj
+%> python manage.py runserver
+
+Go to http://localhost:8000 in your browser, you should get a standard hello page. When you have that going, move onto the next steps.
+
+For simplicity, let's use a sqlite database and let Django provision it for us. Edit settings.py to look like this:
+
+  'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+  'NAME': 'django_sdj.sqlite3',
+
+
+Then back in the shell, run django syncdb and run through the prompts:
+
+%> python manage.py syncdb
+
+Go to http://localhost:8000 in your browser to check it's not broken
+
+
+Next create a Django "app" called "hello" (not the same as a "project" in Django lingo):
+
+%> python manage.py startapp hello
+
+Then edit settings.py and hello/models.py to begin adding some meat to your app. See the code diff I made here:
+  https://github.com/mdagosta/hello-sdj/commit/c8970ded6fc015f57278ad128f5b9195eeaa2a4e
+
+Check out what the Django model will generate:
+
+%> python manage.py sql hello # sample output. if it looks ok...
+%> python manage.py syncdb
+
+
+The Django Admin interface is really convenient and worth settings up. I'll skip over the details, but to get it working I did this:
+  https://github.com/mdagosta/hello-sdj/commit/7e4744e7c92be1e3430a147b4965ae0b7172dd03
+
+
+Keep following along with the code, and add some urls and views: 
+  https://github.com/mdagosta/hello-sdj/commit/a1882138363ff684c11b427a37a067a75166cff1
+
+
+Hopefully you're getting into the flow of editing the files, running the app and loading it in your browser. I did, and believe that a Git Commit is worth a thousand words, so here are 3 commits that built all the features for the web-based database email system:
+
+https://github.com/mdagosta/hello-sdj/commit/3e5b0c5a4fb4beb3e2e968ee1a0e9ecb35bc0fc7
+
+https://github.com/mdagosta/hello-sdj/commit/866c88b3d51724f5e1a8177ce56d66565dc3e8bb
+
+https://github.com/mdagosta/hello-sdj/commit/b97230fbc08ea85c8c8730609f32c3befc097314
+
+
+I hope that you are successful and your application works great. If you get it working, you'll send me an email, and I'll respond to let you know that I got your message. Don't be shy :-) 
+
+
+
+Tornado example
+
+For the Tornado example, I will walk you through installing tornado so you can get the webchat demos that come with the tornado package. These examples are sufficient to illustrate the Polling and Websocket implementations without any modifications needed. The first chat demo requires Google OAuth, so if you aren't already Google Borg you'll need to sign up for Google if you want to try it out.
+
+Start by cloning tornado from github:
+
+%> git clone https://github.com/facebook/tornado.git
+%> cd tornado
+%> sudo python setup.py install
+
+Then copy the contents of the tornado/demos/chat directory to yours and run it:
+
+%> cp -R tornado/demos/chat .
+%> cd chat
+%> ./chatdemo.py     # Ctrl-C to exit
+
+Use two separate browsers or profiles and visit http://localhost:8888, and sign into Google. Out of the box you should be able to type messages that appear in the other browser.
+
+Try the same thing using websockets. Go back up a directory and copy the contents of the tornado/demos/websocket directory to yours:
+
+%> cp -R tornado/demos/websocket .
+%> cd websocket
+%> ./chatdemo.py    # Ctrl-C to exit
+
+You will see some differences under the hood, in the terminal where you ran the server. But otherwise your messages should appear in both browser as with the original chat demo.
+
+
+These code samples are both brief and dense. If you are interested, in the Lean and Mean spirit, I urge you to read through them. chat/chatdemo.py is 160 lines of code, and websocket/chatdemo.py is 106. So go for it, read through and begin learning. Pay special attention to the way the RequestHandler classes are set up, to @tornado.web.authenticated, @tornado.web.asynchronous, @gen.coroutine. Notice also in websocket demo how the ChatSocketHandler has a WebSocketHandler as its parent class. If you're itching to do a real-time system, try modifying ChatSocketHandler in place and see how far you get!
+
+
+
+How to Choose
+
+To choose between Django and Tornado, you should consider what kind of site you are trying to build, your team's skills levels and proximity to each other, and how much effort you can afford to put into it. Django will generally be better for beginners, since it abstracts away a lot of details, and for projects on a budget or deadline. Tornado will generally allow more experienced developers fulfill a larger vision, although it will take more effort to build up some of the infrastructure.
+
+If your team is distributed, Django will provide better tools for managing schemas and migrating data, where Tornado doesn't have anything like that built in. However, if your team is located in close proximity, you can cultivate a culture of making something great from something small.
+
+Lastly, if your application requires something like polling or web sockets, or needs to make web requests in order to complete your own users' web requests, Tornado's IOLoop will offer you a lot of value. There are risks associated with async systems, such as blocking the main thread, but when mitigated, asynchronous systems bring a wider variety of dynamic and interactive features that are hard to accomplish with standard forking web servers. If you have a highly skilled team working in close proximity, you will almost certainly be able to pull off any vision using Tornado.
+
+
+Summary
+
+If you're starting a new project from scratch, I highly recommend Python. It's a great overall language with enough clarity, speed and features that you can bring together a global team to build a high-performance website. You'll want to choose a web framework that suits your team and project, between Django and Tornado you can accomplish almost anything.
